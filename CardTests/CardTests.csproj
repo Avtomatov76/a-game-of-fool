@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0F332464-9B79-48A2-B69A-B02975025916}</ProjectGuid>
+    <ProjectGuid>{198623C3-B566-40E1-A62C-CC805C0E8D1E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>FoolGame</RootNamespace>
-    <AssemblyName>FoolGame</AssemblyName>
+    <RootNamespace>CardTests</RootNamespace>
+    <AssemblyName>CardTests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Card.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

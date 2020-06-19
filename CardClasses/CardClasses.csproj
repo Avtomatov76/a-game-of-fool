@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0F332464-9B79-48A2-B69A-B02975025916}</ProjectGuid>
+    <ProjectGuid>{50E51341-5DD2-4300-AD3E-07BE067E4F08}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>FoolGame</RootNamespace>
-    <AssemblyName>FoolGame</AssemblyName>
+    <RootNamespace>CardClasses</RootNamespace>
+    <AssemblyName>CardClasses</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -48,12 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CardClasses\CardClasses.csproj">
-      <Project>{50e51341-5dd2-4300-ad3e-07be067e4f08}</Project>
-      <Name>CardClasses</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

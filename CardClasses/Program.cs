@@ -4,21 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CardClasses;
-
-namespace FoolGame
+namespace CardClasses
 {
     class Program
     {
         static void Main(string[] args)
         {
-            //Write classes
-            //write FoolHand class
-        }
-
-        static void FoolHandTest()
-        {
-
         }
     }
 }
