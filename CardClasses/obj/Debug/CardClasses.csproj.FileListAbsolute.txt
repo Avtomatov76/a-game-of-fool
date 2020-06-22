@@ -1,0 +1,7 @@
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\CardClasses\bin\Debug\CardClasses.exe.config
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\CardClasses\bin\Debug\CardClasses.exe
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\CardClasses\bin\Debug\CardClasses.pdb
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\CardClasses\obj\Debug\CardClasses.csprojAssemblyReference.cache
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\CardClasses\obj\Debug\CardClasses.csproj.CoreCompileInputs.cache
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\CardClasses\obj\Debug\CardClasses.exe
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\CardClasses\obj\Debug\CardClasses.pdb

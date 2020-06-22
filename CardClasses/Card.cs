@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CardTests
+namespace CardClasses
 {
     public class Card
     {
@@ -140,6 +140,15 @@ namespace CardTests
         public override string ToString()
         {
             return values[value] + " of " + suits[suit];
+        }
+
+        public bool IsTrump(int suit) //determines if a card is a trump card
+        {
+            bool isTrump = false;
+            if (this.Suit == suit)
+                isTrump = true;
+
+            return isTrump;
         }
 
         public override bool Equals(object obj)

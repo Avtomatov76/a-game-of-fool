@@ -1,0 +1,11 @@
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\bin\Debug\FoolGame.exe.config
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\bin\Debug\FoolGame.exe
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\bin\Debug\FoolGame.pdb
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\bin\Debug\CardClasses.exe
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\bin\Debug\CardClasses.pdb
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\bin\Debug\CardClasses.exe.config
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\obj\Debug\FoolGame.csprojAssemblyReference.cache
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\obj\Debug\FoolGame.csproj.CoreCompileInputs.cache
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\obj\Debug\FoolGame.csproj.CopyComplete
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\obj\Debug\FoolGame.exe
+C:\Users\Ruslan\Documents\DURAK\a-game-of-fool\FoolGame\obj\Debug\FoolGame.pdb
