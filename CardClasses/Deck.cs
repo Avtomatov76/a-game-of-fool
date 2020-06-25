@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ExceptionServices;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CardClasses
 {
-    public class Deck
+    public class Deck 
     {
         // can instantiate the list here OR in the constructor
         private List<Card> cards = new List<Card>();
@@ -69,16 +70,15 @@ namespace CardClasses
         public Hand DealSixCards()
         {
             Hand h = new Hand();
-            Card c = new Card();
             // if the deck still has cards
             if (!IsEmpty)
             {
-                for (int i = 0; i < 6; i++)
+                for (int i = 1; i <= 6; i++)
                 {
-                    c = cards[i];
+                    Card c = cards[0];
                     cards.Remove(c);
                     h.AddCard(c);
-                }
+                } 
                 return h;
             }
             // when the deck is empty, return null or throw an exception
@@ -95,6 +95,11 @@ namespace CardClasses
                 return c;
             }
             return null;
+        }
+
+        public Card DisplayTrumpCard() //displays a trump card -- a way to keep track of trump cards' SUIT
+        {
+            return cards[NumCards - 1]; 
         }
 
         public Card GetCard(int index) //helper method: finds a card at a specified index
@@ -132,7 +137,6 @@ namespace CardClasses
                 output += (c.ToString() + "\n");
             return output;
         }
-
 
     }
 }
