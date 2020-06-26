@@ -91,7 +91,8 @@ namespace CardTests
             Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
             Console.WriteLine("Attacking with a card at index 2 ('Ace of Spades').  Expecting 'Ace of Spades' displayed.\n" + c);
             Console.WriteLine("Attacking again with a card of the same value ('Ace of Clubs').  Expecting 'Ace of Clubs' displayed.\n" + fh.AttackAgain(fh, c));
-
+            Console.WriteLine("Attacking again with a card of the same value ('Ace of Clubs').  Expecting 'Ace of Diamonds' displayed.\n" + fh.AttackAgain(fh, c));
+            Console.WriteLine("Current Fool Hand.  Expecting 3 cards left in a hand:\n" + fh);
         }
 
 

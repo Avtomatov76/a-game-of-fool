@@ -72,28 +72,48 @@ namespace CardClasses
 
         public Card Attack(int index)
         {
-            Card c = new Card();
-            c = cards[index];
+            Card c = cards[index];
             cards.Remove(c);
 
             return c;
         }
 
-        public Card AttackAgain(FoolHand fh, Card c) //needs fixing
+        public Card AttackAgain(FoolHand fh, Card c) //attacking again if there is a card of the same value in a hand
         {
             Card c1 = new Card();
-
             for (int i = 0; i < fh.NumCards; i++)
             {
-
                 c1 = cards[i];
-                if (c.Value == c1.Value)
+                if (c1.HasMatchingValue(c))
+                {
                     cards.Remove(c1);
+                    return c1;
+                }
             }
-            
-            return c1;
-
+            return null;
         }
 
+        public Card Defend(FoolHand fn, Card c) //NEEDS TESTING
+        {
+            Card c1 = new Card();
+            for (int i = 0; i < fn.NumCards; i++)
+            {
+                c1 = cards[i];
+                if (c1.HasMatchingSuit(c) && c1.Value > c.Value)
+                {
+                    cards.Remove(c1);
+                    return c1;
+                }
+            }
+            return null;
+        }
+
+        public Card DefendWithSpecifiedCard(int index) //NEEDS TESTING
+        {
+            Card c = cards[index];
+            cards.Remove(c);
+
+            return c;
+        }
     }
 }
