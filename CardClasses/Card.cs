@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CardClasses
 {
-    public class Card
+    public class Card : IComparable<Card>
     {
         private static string[] values = { "", "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "Ten", "Jack", "Queen", "King" };
         private static string[] suits = { "", "Clubs", "Diamonds", "Hearts", "Spades" };
@@ -167,6 +167,19 @@ namespace CardClasses
         {
             return 13 + 7 * value.GetHashCode() +
                 7 * suit.GetHashCode();
+        }
+
+        public int CompareTo(Card other)
+        {
+            int comparisonIndex = 0;
+            if (this.Value == other.Value)
+                comparisonIndex = 0;
+            else if (this.Value < other.Value)
+                comparisonIndex = -1;
+            else
+                comparisonIndex = 1;
+
+            return comparisonIndex;
         }
     }
 }

@@ -93,13 +93,29 @@ namespace CardClasses
             return null;
         }
 
-        public Card Defend(FoolHand fn, Card c) //NEEDS TESTING
+        public FoolHand SortCards(FoolHand fh)
+        {
+            FoolHand fh1 = new FoolHand();
+            fh.cards.Sort();
+          
+            for (int i = 0; i < fh.NumCards; i++)
+                fh1.AddCard(cards[i]);
+            
+            return fh1;
+        }
+
+        public Card Defend(FoolHand fh, Card c, Card tc) //NEEDS TESTING
         {
             Card c1 = new Card();
-            for (int i = 0; i < fn.NumCards; i++)
+            
+            for (int i = 0; i < fh.NumCards; i++)
             {
                 c1 = cards[i];
-                if (c1.HasMatchingSuit(c) && c1.Value > c.Value)
+                if ((c1.Suit == c.Suit && c1.Value > c.Value)  || 
+                    ((c1.Suit == c.Suit) && c1.Value == 1 && c.Value != 1) || 
+                    (c1.Suit == tc.Suit && c.Suit != tc.Suit) ||
+                    (c1.Suit == tc.Suit && c.Suit == tc.Suit && (c1.Value > c.Value || 
+                    (c1.Suit == c.Suit && c1.Value == 1 && c.Value != 1))))   
                 {
                     cards.Remove(c1);
                     return c1;
@@ -108,12 +124,33 @@ namespace CardClasses
             return null;
         }
 
-        public Card DefendWithSpecifiedCard(int index) //NEEDS TESTING
+        public Card DefendWithSameSuit(FoolHand fh, Card c, Card tc)
         {
-            Card c = cards[index];
-            cards.Remove(c);
+            Card c1 = new Card();
 
-            return c;
+            for (int i = 0; i < fh.NumCards; i++)
+            {
+                c1 = cards[i];
+                if ((c1.HasMatchingSuit(c) && c1.Value > c.Value && c.Value != 1) || 
+                    (c1.HasMatchingSuit(c) && c1.Value == 1 && c.Value != 1))
+                {
+                    cards.Remove(c1);
+                    return c1;
+                }
+            }
+            return null;
+        }
+
+        public Card DefendWithSpecifiedCard(int index, Card c) //NEEDS TESTING
+        {
+            Card c1 = cards[index];
+            if (c1.HasMatchingSuit(c) && c1.Value > c.Value || 
+                (c1.HasMatchingSuit(c) && c1.Value == 1 && c.Value != 1))
+            {
+                cards.Remove(c1);
+                return c1;
+            }                  
+         return null;
         }
     }
 }

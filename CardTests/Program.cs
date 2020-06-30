@@ -21,7 +21,11 @@ namespace CardTests
             //TestHowManyTrumpCards();
             //TestDrawUpToSixCards();
             //TestAtackMethod();
-            TestAttackAgain();
+            //TestAttackAgain();
+            //TestDefendWithSpecifiedCard();
+            TestDefendMethod();
+            //TestDefendWithSameSuitMethod();
+            //TestSortCardsMethod();
         }
 
         #region //DECK TESTS
@@ -95,6 +99,81 @@ namespace CardTests
             Console.WriteLine("Current Fool Hand.  Expecting 3 cards left in a hand:\n" + fh);
         }
 
+        static void TestDefendWithSpecifiedCard()
+        {
+            Deck d = new Deck();
+            FoolHand fh = new FoolHand();
+            fh.DrawUpToSixCards(fh, d);
+            Card c = fh.Attack(5);
+
+            Console.WriteLine("Test DefendWithSpecifiedCard method");
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+            Console.WriteLine("Attacking with a card at index 4 ('2 of Diamonds').  Expecting '2 of Diamonds' displayed.\n" + c);
+            Console.WriteLine("Defending with a card at index 1 ('Ace of Diamonds').  Expecting 'Ace of Diamonds' displayed.\n" + fh.DefendWithSpecifiedCard(1, c));
+            Console.WriteLine("Current Fool Hand.  Expecting 4 cards left in a hand:\n" + fh);
+        }
+
+        static void TestDefendMethod()
+        {
+            Deck d = new Deck();
+            d.Shuffle();
+            Card c2 = d.DetermineTrump();
+            //just for testing display trump card
+            Console.WriteLine("The trump card is: " + d.DisplayTrumpCard());
+            FoolHand fh = new FoolHand();
+            fh.DrawUpToSixCards(fh, d);
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+            Card c = fh.Attack(5);
+            fh.SortCards(fh);
+            Console.WriteLine("Sorted hand of cards.\n" + fh);
+            //Random cards are output -- disregard the notes below
+            Console.WriteLine("Test Defend method");
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+            Console.WriteLine("Attacking with a card at index 4 ('2 of Diamonds').  Expecting '2 of Diamonds' displayed.\n" + c);
+            Console.WriteLine("Defending with a card at index 1 ('Ace of Diamonds').  Expecting 'Ace of Diamonds' displayed.\n" + fh.Defend(fh, c, c2));
+            Console.WriteLine("Current Fool Hand.  Expecting 4 cards left in a hand:\n" + fh);
+        }
+
+        static void TestDefendWithSameSuitMethod()
+        {
+            Deck d = new Deck();
+            d.Shuffle();
+            Card c2 = d.DetermineTrump();
+            //just for testing display trump card
+            Console.WriteLine("The trump card is: " + d.DisplayTrumpCard());
+            FoolHand fh = new FoolHand();
+            fh.DrawUpToSixCards(fh, d);
+            
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+            Card c = fh.Attack(5);
+            //Random cards are output -- disregard the notes below
+            Console.WriteLine("Test Defend method");
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+            Console.WriteLine("Attacking with a card at index 4 ('2 of Diamonds').  Expecting '2 of Diamonds' displayed.\n" + c);
+            Console.WriteLine("Defending with a card at index 1 ('Ace of Diamonds').  Expecting 'Ace of Diamonds' displayed.\n" + fh.DefendWithSameSuit(fh, c, c2));
+            Console.WriteLine("Current Fool Hand.  Expecting 4 cards left in a hand:\n" + fh);
+        }
+
+        static void TestSortCardsMethod()
+        {
+            Deck d = new Deck();
+            d.Shuffle();
+            Card c2 = d.DetermineTrump();
+            //just for testing display trump card
+            Console.WriteLine("The trump card is: " + d.DisplayTrumpCard());
+            FoolHand fh = new FoolHand();
+            fh.DrawUpToSixCards(fh, d);
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+            Card c = fh.Attack(5);
+            fh.SortCards(fh);
+            Console.WriteLine("Sorted hand of cards.\n" + fh);
+            //Random cards are output -- disregard the notes below
+            Console.WriteLine("Test Defend method");
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+            Console.WriteLine("Attacking with a card at index 4 ('2 of Diamonds').  Expecting '2 of Diamonds' displayed.\n" + c);
+            Console.WriteLine("Defending with a card at index 1 ('Ace of Diamonds').  Expecting 'Ace of Diamonds' displayed.\n" + fh.DefendWithSameSuit(fh, c, c2));
+            Console.WriteLine("Current Fool Hand.  Expecting 4 cards left in a hand:\n" + fh);
+        }
 
 
         #endregion
