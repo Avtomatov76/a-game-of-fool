@@ -13,22 +13,6 @@ namespace CardClasses
 
         public FoolHand(Deck d, int numCards) : base(d, numCards) { }
 
-        public bool IsEmpty
-        {
-            get
-            {
-                return NumCards == 0;
-            }
-        }
-
-        public bool HasSixCards
-        {
-            get
-            {
-                return NumCards == 6;
-            }
-        }
-
         public string GetTrumpSuit(Card tc) //determines the suit of the trump card
         {
             string trump = "";
@@ -104,6 +88,21 @@ namespace CardClasses
             return fh1;
         }
 
+        public bool CanDefend(FoolHand fh, Card c, Card tc) //determines if a player is able to defend
+        {
+            bool canDefend = false;
+
+            if (fh.Defend(fh, c, tc) != null || fh.DefendWithSameSuit(fh, c) != null)
+                canDefend = true;
+
+            return canDefend;
+        }
+
+        public bool CannotDefendOption() //Player chosen option to not defend
+        {
+            return true;
+        }
+
         public Card Defend(FoolHand fh, Card c, Card tc) //NEEDS TESTING
         {
             Card c1 = new Card();
@@ -124,7 +123,7 @@ namespace CardClasses
             return null;
         }
 
-        public Card DefendWithSameSuit(FoolHand fh, Card c, Card tc)
+        public Card DefendWithSameSuit(FoolHand fh, Card c)
         {
             Card c1 = new Card();
 
@@ -152,5 +151,9 @@ namespace CardClasses
             }                  
          return null;
         }
+
+
+
+
     }
 }

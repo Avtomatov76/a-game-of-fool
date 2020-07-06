@@ -18,6 +18,22 @@ namespace CardClasses
             }
         }
 
+        public bool IsEmpty
+        {
+            get
+            {
+                return NumCards == 0;
+            }
+        }
+
+        public bool HasSixCards
+        {
+            get
+            {
+                return NumCards == 6;
+            }
+        }
+
         public Hand() { }
 
         public Hand(Deck d, int numCards)
@@ -111,7 +127,14 @@ namespace CardClasses
             }
         }
 
-
+        public Hand PickUpCards(Hand h, Hand playHand)
+        {
+            for (int i = 0; i < playHand.NumCards; i++)
+            {
+                h.AddCard(playHand.GetCard(i));
+            }
+            return h;
+        }
 
         public override string ToString()
         {

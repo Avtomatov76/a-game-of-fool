@@ -23,9 +23,17 @@ namespace CardTests
             //TestAtackMethod();
             //TestAttackAgain();
             //TestDefendWithSpecifiedCard();
-            TestDefendMethod();
+            //TestDefendMethod();
             //TestDefendWithSameSuitMethod();
             //TestSortCardsMethod();
+            //TestCanDefendMethod();
+            TestPickUpCardsTest();
+
+            //PLAY HAND TESTS
+            //TestAttackDefendPlayMethod();
+
+            //DISCARD HAND TESTS
+            //
         }
 
         #region //DECK TESTS
@@ -58,7 +66,7 @@ namespace CardTests
             Console.WriteLine("Number of trump cards.  Expecting '12'. " + fh.HowManyTrumpCards(fh, d.DisplayTrumpCard()));
         }
 
-        static void TestDrawUpToSixCards() //doesnt work
+        static void TestDrawUpToSixCards() 
         {
             Deck d = new Deck();
             FoolHand fh = new FoolHand();
@@ -138,7 +146,7 @@ namespace CardTests
         {
             Deck d = new Deck();
             d.Shuffle();
-            Card c2 = d.DetermineTrump();
+            //Card c2 = d.DetermineTrump();
             //just for testing display trump card
             Console.WriteLine("The trump card is: " + d.DisplayTrumpCard());
             FoolHand fh = new FoolHand();
@@ -150,7 +158,7 @@ namespace CardTests
             Console.WriteLine("Test Defend method");
             Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
             Console.WriteLine("Attacking with a card at index 4 ('2 of Diamonds').  Expecting '2 of Diamonds' displayed.\n" + c);
-            Console.WriteLine("Defending with a card at index 1 ('Ace of Diamonds').  Expecting 'Ace of Diamonds' displayed.\n" + fh.DefendWithSameSuit(fh, c, c2));
+            Console.WriteLine("Defending with a card at index 1 ('Ace of Diamonds').  Expecting 'Ace of Diamonds' displayed.\n" + fh.DefendWithSameSuit(fh, c));
             Console.WriteLine("Current Fool Hand.  Expecting 4 cards left in a hand:\n" + fh);
         }
 
@@ -158,7 +166,7 @@ namespace CardTests
         {
             Deck d = new Deck();
             d.Shuffle();
-            Card c2 = d.DetermineTrump();
+            //Card c2 = d.DetermineTrump();
             //just for testing display trump card
             Console.WriteLine("The trump card is: " + d.DisplayTrumpCard());
             FoolHand fh = new FoolHand();
@@ -171,10 +179,106 @@ namespace CardTests
             Console.WriteLine("Test Defend method");
             Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
             Console.WriteLine("Attacking with a card at index 4 ('2 of Diamonds').  Expecting '2 of Diamonds' displayed.\n" + c);
-            Console.WriteLine("Defending with a card at index 1 ('Ace of Diamonds').  Expecting 'Ace of Diamonds' displayed.\n" + fh.DefendWithSameSuit(fh, c, c2));
+            Console.WriteLine("Defending with a card at index 1 ('Ace of Diamonds').  Expecting 'Ace of Diamonds' displayed.\n" + fh.DefendWithSameSuit(fh, c));
             Console.WriteLine("Current Fool Hand.  Expecting 4 cards left in a hand:\n" + fh);
         }
 
+        static void TestPickUpCardsTest()
+        {
+            Deck d = new Deck();
+            d.Shuffle();
+            Card c = d.DetermineTrump();
+            FoolHand fh = new FoolHand();
+            FoolHand fh2 = new FoolHand();
+            fh.DrawUpToSixCards(fh, d);
+            fh2.DrawUpToSixCards(fh2, d);
+            
+            Console.WriteLine("Test PickupCards method");
+            Console.WriteLine("Display a trump card: " + c);
+            Console.WriteLine("Display FoolHand #1.  Expecting 6 cards:\n" + fh);
+            Console.WriteLine("Display FoolHand #2.  Expecting 6 cards:\n" + fh2);
+
+            fh2.PickUpCards(fh2, fh); //FoolHand #2 picking up cards
+            Console.WriteLine("Display FoolHand #1.  Expecting 6 cards:\n" + fh);
+            Console.WriteLine("Display FoolHand #2.  Expecting 12 cards:\n" + fh2);
+            fh.DiscardAll();
+            Console.WriteLine("Display FoolHand #1.  Expecting 0 cards after discrading all cards:\n" + fh.NumCards);
+        }
+
+        #endregion
+
+        #region //PLAY HAND TESTS
+
+        static void TestAttackDefendPlayMethod()
+        {
+            Deck d = new Deck();
+            d.Shuffle();
+            Card c2 = d.DetermineTrump();
+            //just for testing display trump card
+            Console.WriteLine("The trump card is: " + d.DisplayTrumpCard());
+            FoolHand fh = new FoolHand();
+            PlayHand ph = new PlayHand();
+            fh.DrawUpToSixCards(fh, d);
+
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+            Card c = fh.Attack(1);
+            Console.WriteLine("Test AttackDefendPlay method");
+            Console.WriteLine("Attacking with a card at index '0'.\n" + c);
+            Card c3 = fh.Defend(fh, c, c2);
+            Console.WriteLine("Defending with a card from the deck.\n" + c3);
+            Console.WriteLine("Current Fool Hand.  Expecting 4 cards left in a hand:\n" + fh);
+            ph.AddCardToPlayHand(ph, fh, c);
+            ph.AddCardToPlayHand(ph, fh, c3);
+            Console.WriteLine("Current Play Hand.  Expecting 2 cards in a hand:\n" + ph);
+            Console.WriteLine("Number of cards in the PlayHand.  Expecting 2 cards:\n" + ph.NumCards);
+        }
+
+        static void TestCanDefendMethod()
+        {
+            Deck d = new Deck();
+            d.Shuffle();
+            Card c2 = d.DetermineTrump();
+            //just for testing display trump card
+            Console.WriteLine("The trump card is: " + d.DisplayTrumpCard());
+            FoolHand fh = new FoolHand();
+            PlayHand ph = new PlayHand();
+            fh.DrawUpToSixCards(fh, d);
+
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+
+            Card c = fh.Attack(1);
+            Console.WriteLine("Test AttackDefendPlay method");
+            Console.WriteLine("Attacking with a card at index '0'.\n" + c);
+
+            Card c3 = fh.Defend(fh, c, c2);
+            Console.WriteLine("Defending with a card from the deck.\n" + c3);
+            Console.WriteLine("Current Fool Hand.  Expecting 4 cards left in a hand:\n" + fh);
+
+            bool canDefend = fh.CanDefend(fh, c, c2);
+            Console.WriteLine("Checking if a player can defend.\n" + canDefend);
+            Console.WriteLine("Current Fool Hand.  Expecting 4 cards left in a hand:\n" + fh);
+
+            ph.AddCardToPlayHand(ph, fh, c);
+            ph.AddCardToPlayHand(ph, fh, c3);
+            Console.WriteLine("Current Play Hand.  Expecting 2 cards in a hand:\n" + ph);
+            Console.WriteLine("Number of cards in the PlayHand.  Expecting 2 cards:\n" + ph.NumCards);
+
+            DiscardHand dh = new DiscardHand();
+            
+            Console.WriteLine("Number of cards in the DiscardHand.  Expecting 2 cards:\n" + dh.AddToDiscardPile(dh, ph));
+            ph.DiscardAll();
+            Console.WriteLine("Number of cards in the PlayHand.  Expecting 0 cards after DiscardAll():\n" + ph.NumCards);
+            dh.DiscardAll();
+            Console.WriteLine("Number of cards in the DiscardHand.  Expecting 0 cards after DiscardAll():\n" + dh.NumCards);
+
+        }
+
+        #endregion
+
+
+        #region // DISCARD HAND TESTS
+
+        
 
         #endregion
     }
