@@ -42,25 +42,7 @@ namespace CardClasses
                     numTrumpCards += 1;
             }
             return numTrumpCards;
-        }
-    
-        public void DrawUpToSixCards(FoolHand fh, Deck d) //draws cards from the deck up to 6 cards
-        {
-            while (!(fh.HasSixCards) && d.NumCards != 0)
-            {
-                Card c = d.Deal();
-                cards.Remove(c);
-                fh.AddCard(c);
-            } 
-        }
-
-        public Card Attack(int index)
-        {
-            Card c = cards[index];
-            cards.Remove(c);
-
-            return c;
-        }
+        }  
 
         public Card AttackAgain(FoolHand fh, Card c) //attacking again if there is a card of the same value in a hand
         {
@@ -103,35 +85,25 @@ namespace CardClasses
             return true;
         }
 
+        public Card DefendWithSpecificCard(FoolHand fh, int index) //NEEDS TESTING
+        {
+            Card c = fh.cards[index];
+
+            return c;
+        }
+
         public Card Defend(FoolHand fh, Card c, Card tc) //NEEDS TESTING
         {
             Card c1 = new Card();
-            
-            for (int i = 0; i < fh.NumCards; i++)
-            {
-                c1 = cards[i];
-                if ((c1.Suit == c.Suit && c1.Value > c.Value)  || 
-                    ((c1.Suit == c.Suit) && c1.Value == 1 && c.Value != 1) || 
-                    (c1.Suit == tc.Suit && c.Suit != tc.Suit) ||
-                    (c1.Suit == tc.Suit && c.Suit == tc.Suit && (c1.Value > c.Value || 
-                    (c1.Suit == c.Suit && c1.Value == 1 && c.Value != 1))))   
-                {
-                    cards.Remove(c1);
-                    return c1;
-                }
-            }
-            return null;
-        }
-
-        public Card DefendWithSameSuit(FoolHand fh, Card c)
-        {
-            Card c1 = new Card();
 
             for (int i = 0; i < fh.NumCards; i++)
             {
                 c1 = cards[i];
-                if ((c1.HasMatchingSuit(c) && c1.Value > c.Value && c.Value != 1) || 
-                    (c1.HasMatchingSuit(c) && c1.Value == 1 && c.Value != 1))
+                if ((c1.HasMatchingSuit(c) && c1.Value > c.Value) ||
+                    (c1.HasMatchingSuit(c) && c1.Value == 1 && c.Value != 1) ||
+                    (c1.HasMatchingSuit(tc) && c.Suit != tc.Suit) ||
+                    (c1.HasMatchingSuit(tc) && c.HasMatchingSuit(tc) && (c1.Value > c.Value ||
+                    (c1.HasMatchingSuit(c) && c1.Value == 1 && c.Value != 1))))
                 {
                     cards.Remove(c1);
                     return c1;
@@ -152,7 +124,12 @@ namespace CardClasses
          return null;
         }
 
+        public PlayHand PickCardUp(PlayHand ph, Card c) //Picking up a card voluntarily
+        {
+            ph.AddCard(c);
 
+            return ph;
+        }
 
 
     }

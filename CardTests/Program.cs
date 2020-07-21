@@ -27,14 +27,41 @@ namespace CardTests
             //TestDefendWithSameSuitMethod();
             //TestSortCardsMethod();
             //TestCanDefendMethod();
-            TestPickUpCardsTest();
+            //TestPickUpCardsTest();
 
             //PLAY HAND TESTS
             //TestAttackDefendPlayMethod();
 
-            //DISCARD HAND TESTS
-            //
+            //COMP HAND TESTS
+            //TestCompSortCards();
+            //TestCompDefendMethod();
+            //TestCompPickCard();
+
+            //HAND TESTS
+            //TestPickPlayHandCards();
+            TestCompAttackSameValueCard();
         }
+
+        #region //HAND TESTS
+
+        static void TestPickPlayHandCards()
+        {
+            Deck d = new Deck();
+            FoolHand fh = new FoolHand();
+            PlayHand ph = new PlayHand();
+            fh.DrawUpToSixCards(fh, d);
+            ph.AddCard(new Card(13, 1));
+            ph.AddCard(new Card(13, 2));
+            ph.AddCard(new Card(13, 3));
+
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + fh);
+            Console.WriteLine("Current Play Hand.  Expecting 3 Kings.\n" + ph);
+            fh.PickPlayHandCards(fh, ph);
+            Console.WriteLine("Test PickPlayHandCards method");
+            Console.WriteLine("Execting 9 cards in Fool Hand:\n" + fh + "\nand '0' cards in Play Hand:\n" + ph.NumCards);
+        }
+
+        #endregion
 
         #region //DECK TESTS
 
@@ -270,15 +297,104 @@ namespace CardTests
             Console.WriteLine("Number of cards in the PlayHand.  Expecting 0 cards after DiscardAll():\n" + ph.NumCards);
             dh.DiscardAll();
             Console.WriteLine("Number of cards in the DiscardHand.  Expecting 0 cards after DiscardAll():\n" + dh.NumCards);
-
         }
 
         #endregion
 
 
-        #region // DISCARD HAND TESTS
+        #region // COMP HAND TESTS
 
-        
+        static void TestCompSortCards()
+        {
+            Deck d = new Deck();
+            d.Shuffle();
+            Card tc = d.DetermineTrump();
+            //just for testing display trump card
+            Console.WriteLine("The trump card is: " + d.DisplayTrumpCard());
+            CompHand ch = new CompHand();
+            ch.DrawUpToSixCards(ch, d);
+            Console.WriteLine("Current CompHand.  Expecting 6 cards.\n" + ch); 
+            ch.CompSortCards(ch, tc);
+            Console.WriteLine("Sorted hand of cards.\n" + ch);
+        }
+
+        static void TestCompDefendMethod()
+        {
+            Deck d = new Deck();
+            d.Shuffle();
+            Card c2 = d.DetermineTrump();
+            Card c3 = new Card(4, 1);
+            Card c4 = new Card(11, 4);
+            //just for testing display trump card
+            Console.WriteLine("The trump card is: " + d.DisplayTrumpCard());
+            CompHand ch = new CompHand();
+            ch.DrawUpToSixCards(ch, d);
+            Console.WriteLine("Current CompHand.  Expecting 6 cards.\n" + ch);
+            ch.CompSortCards(ch, c2);
+            Console.WriteLine("Sorted hand of cards.\n" + ch);
+            //Random cards are output -- disregard the notes below
+            Console.WriteLine("Test Defend method\n");
+
+            Console.WriteLine("Attacking with a picked card.  Expecting '4 of Clubs' displayed.\n" + c3);   
+            Console.WriteLine("Defending with a card from a deck.  Expecting same suite card, trump or null.\n" + ch.CompDefend(ch, c3, c2));
+            Console.WriteLine("Current CompHand.  Expecting 5 cards left in a hand:\n" + ch);
+
+            Console.WriteLine("Attacking with a picked card.  Expecting 'Jack of Spades' displayed.\n" + c4);
+            Console.WriteLine("Defending with a card from a deck.  Expecting same suite card, trump or null.\n" + ch.CompDefend(ch, c4, c2));
+            Console.WriteLine("Current CompHand.  Expecting 4 cards left in a hand:\n" + ch);
+        }
+
+        static void TestCompPickCard()
+        {
+            Deck d = new Deck();
+            d.Shuffle();
+            Card tc = new Card(2, 2);
+            Card c1 = new Card(11, 2);
+            Card c2 = new Card(12, 2);
+            Card c3 = new Card(13, 2);
+            //just for testing display trump card
+            Console.WriteLine("The trump card is: " + tc);
+            CompHand ch = new CompHand();
+            ch.DrawUpToSixCards(ch, d);
+            Console.WriteLine("Current CompHand.  Expecting 6 cards.\n" + ch);
+            ch.CompSortCards(ch, c2);
+            Console.WriteLine("Sorted hand of cards.\n" + ch);
+            //Random cards are output -- disregard the notes below
+            Console.WriteLine("Test CompPickCard method\n");
+            Console.WriteLine("Attacking with a 'Jack of Diamonds' displayed.\n" + c1);
+            Console.WriteLine("Cannot defend.  Expecting: false\n" + ch.CanDefend(ch, c1, tc));
+            ch.CompPickCard(ch, c1, tc);
+            Console.WriteLine("Cannot defend.  Expecting hand to have 7 cards:\n" + ch);
+
+            Console.WriteLine("Attacking with a 'Jack of Diamonds' displayed.\n" + c2);
+            Console.WriteLine("Cannot defend.  Expecting: false\n" + ch.CanDefend(ch, c2, tc));
+            ch.CompPickCard(ch, c2, tc);
+            Console.WriteLine("Cannot defend.  Expecting hand to have 8 cards:\n" + ch);
+
+            Console.WriteLine("Attacking with a 'Jack of Diamonds' displayed.\n" + c3);
+            Console.WriteLine("Cannot defend.  Expecting: false\n" + ch.CanDefend(ch, c3, tc));
+            ch.CompPickCard(ch, c3, tc);
+            Console.WriteLine("Cannot defend.  Expecting hand to have 9 cards:\n" + ch);
+        }
+
+        static void TestCompAttackSameValueCard()
+        {
+            Deck d = new Deck();
+            CompHand ch = new CompHand();
+            ch.DrawUpToSixCards(ch, d);
+            ch.AddCard(new Card(13, 1));
+            ch.AddCard(new Card(13, 2));
+            Card c = new Card(13, 3);
+
+            Console.WriteLine("Current Fool Hand.  Expecting 8 cards.\n" + ch);
+            
+            Console.WriteLine("Test CompAttackSameCardValue method");
+            Console.WriteLine("Attacking with another King from the Comp Hand:\n" + ch.CompAttackSameCardValue(ch, c));
+            Console.WriteLine("Attacking with another King from the Comp Hand:\n" + ch.CompAttackSameCardValue(ch, c));
+            Console.WriteLine("Current Fool Hand.  Expecting 6 cards.\n" + ch);
+            Console.WriteLine("Checking if there is a Queen to attack with.  Expecting 'null' returned and 6 cards in hand:\n" + 
+                ch.CompAttackSameCardValue(ch, new Card(12, 1)) + "\nnumber of cards in the hand:\n" + ch);
+        }
 
         #endregion
     }

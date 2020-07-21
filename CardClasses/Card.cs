@@ -176,7 +176,7 @@ namespace CardClasses
                 comparisonIndex = 0;
             else if (this.Value < other.Value)
                 comparisonIndex = -1;
-            else
+            else 
                 comparisonIndex = 1;
 
             return comparisonIndex;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CardClasses
 {
-    public class Hand
+    public class Hand : IEnumerable<Card>
     {
         protected List<Card> cards = new List<Card>();
 
@@ -108,6 +109,16 @@ namespace CardClasses
             return c;
         }
 
+        public void DrawUpToSixCards(Hand h, Deck d) //draws cards from the deck up to 6 cards
+        {
+            while (!(h.HasSixCards) && d.NumCards != 0)
+            {
+                Card c = d.Deal();
+                cards.Remove(c);
+                h.AddCard(c);
+            }
+        }
+
         public void DiscardAll()
         {
             if (NumCards != 0)
@@ -127,12 +138,64 @@ namespace CardClasses
             }
         }
 
+        public Card Attack(int index, FoolHand fh, PlayHand ph) //NEEDS WORK!!!!!!!!!!!!!!!!!!!
+        {
+            Card c = fh.cards[index];
+            Card c1 = new Card();
+
+            if (ph.IsEmpty)
+            {
+                fh.cards.Remove(c);
+                return c;
+            }
+
+            for (int i = 0; i < ph.NumCards; i++)
+            {
+                c1 = ph.cards[i];
+                if (c.HasMatchingValue(c1))
+                {
+                    fh.cards.Remove(c);
+                    return c;
+                }
+                //else
+                //    throw new ArgumentException("This card's value does not match any cards currently in play; therefore it cannot be played.");
+            }
+            return null;
+        }
+
         public Hand PickUpCards(Hand h, Hand playHand)
         {
             for (int i = 0; i < playHand.NumCards; i++)
             {
                 h.AddCard(playHand.GetCard(i));
             }
+            return h;
+        }
+
+        public Card DefendWithSameSuit(Hand h, Card c)
+        {
+            Card c1 = new Card();
+
+            for (int i = 0; i < h.NumCards; i++)
+            {
+                c1 = cards[i];
+                if ((c1.HasMatchingSuit(c) && c1.Value > c.Value && c.Value != 1) ||
+                    (c1.HasMatchingSuit(c) && c1.Value == 1 && c.Value != 1))
+                {
+                    cards.Remove(c1);
+                    return c1;
+                }
+            }
+            return null;
+        }
+
+        public Hand PickPlayHandCards(Hand h, PlayHand ph)
+        {
+            for (int i = 0; i < ph.NumCards; i++)
+                h.AddCard(ph.cards[i]);
+
+            ph.DiscardAll();
+
             return h;
         }
 
@@ -146,5 +209,14 @@ namespace CardClasses
             return output;
         }
 
+        public IEnumerator<Card> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
