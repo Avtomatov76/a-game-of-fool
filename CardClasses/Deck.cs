@@ -85,6 +85,15 @@ namespace CardClasses
             return null;
         }
 
+        public void DealCards(FoolHand fh, CompHand ch) //dealing cards, one at a time to each player: 6 cards each
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                fh.AddCard(Deal());
+                ch.AddCard(Deal());
+            }
+        }
+
         public Card DetermineTrump() //detemines what trump is and places it at the bottom of the deck
         {                            //this is a helper method
             if (!IsEmpty)

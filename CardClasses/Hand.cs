@@ -109,7 +109,7 @@ namespace CardClasses
             return c;
         }
 
-        public void DrawUpToSixCards(Hand h, Deck d) //draws cards from the deck up to 6 cards
+        public void DrawUpToSixCards(Hand h, Deck d, Card tc) //draws cards from the deck up to 6 cards, and sorts the cards
         {
             while (!(h.HasSixCards) && d.NumCards != 0)
             {
@@ -117,6 +117,7 @@ namespace CardClasses
                 cards.Remove(c);
                 h.AddCard(c);
             }
+            h.SortCards(h, tc);
         }
 
         public void DiscardAll()
@@ -138,24 +139,55 @@ namespace CardClasses
             }
         }
 
-        public Card Attack(int index, FoolHand fh, PlayHand ph) //NEEDS WORK!!!!!!!!!!!!!!!!!!!
+        public Card Attack(int index, Hand h) //NEEDS WORK!!!!!!!!!!!!!!!!!!!
         {
-            Card c = fh.cards[index];
-            Card c1 = new Card();
+            Card c = h.cards[index];
+            h.cards.Remove(c);
+            return c;
+        }
 
-            if (ph.IsEmpty)
-            {
-                fh.cards.Remove(c);
-                return c;
-            }
+        public bool CanAttackAgain(Hand h, PlayHand ph) //Checks if Computer can attack again based on cards in the PlayHand
+        {
+            bool canAttack = false;
 
             for (int i = 0; i < ph.NumCards; i++)
             {
-                c1 = ph.cards[i];
-                if (c.HasMatchingValue(c1))
+                Card c = ph.GetCard(i);
+                for (int j = 0; j < h.NumCards; j++)
                 {
-                    fh.cards.Remove(c);
-                    return c;
+                    Card c1 = h.GetCard(i);
+                    if (c1.Value == c.Value)
+                        canAttack = true;
+                }
+            }
+            return canAttack;
+        }
+
+        public void PutCardsIntoPlayHand(Hand h, Hand ph, Card c)
+        {
+            for ( int i = 0; i < h.NumCards; i++)
+            {
+                if (h.cards[i].Value == c.Value)
+                {
+                    h.cards.Remove(c);
+                    ph.AddCard(c);
+                }
+            }
+        }
+
+        public Card AttackAgain(Hand h, PlayHand ph) // REWORKED THE METHOD A BIT
+        {
+            for (int i = 0; i < ph.NumCards; i++)
+            {
+                Card c1 = ph.cards[i];
+                for (int j = 0; j < h.NumCards; j++)
+                {
+                    Card c = h.cards[j];
+                    if (c.HasMatchingValue(c1))
+                    {
+                        h.cards.Remove(c);
+                        return c;
+                    }
                 }
                 //else
                 //    throw new ArgumentException("This card's value does not match any cards currently in play; therefore it cannot be played.");
@@ -199,24 +231,77 @@ namespace CardClasses
             return h;
         }
 
+        //public override string ToString()
+        //{
+        //    string output = "";
+        //    // go through every card in the deck
+        //    foreach (Card c in cards)
+        //        // ask the card to convert itself to a string
+        //        output += (c.ToString() + "\n");
+        //    return output;
+        //}
+
         public override string ToString()
         {
             string output = "";
             // go through every card in the deck
             foreach (Card c in cards)
                 // ask the card to convert itself to a string
-                output += (c.ToString() + "\n");
+                output += (cards.IndexOf(c) + 1) + ") " + (c.ToString() + "\n");
+          
             return output;
+        }
+
+        public Hand SortCards(Hand h, Card tc)
+        {
+            List<Card> cards2 = new List<Card>(); //helper list for sorting trump cards
+            Hand h1 = new Hand();
+            cards.Sort();
+
+            for (int i = 0; i < h.NumCards; i++) //placing all Aces to the bottom of the hand
+            {
+                Card c = cards[0];
+                if (c.Value == 1)
+                {
+                    cards.Remove(c);
+                    cards.Add(c);
+                }
+            }
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                Card c = cards[i];
+                if (!c.HasMatchingSuit(tc))
+                    cards2.Add(c);
+            }
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                Card c = cards[i];
+                if (c.HasMatchingSuit(tc))
+                    cards2.Add(c);
+            }
+
+            cards.Clear();
+
+            for (int i = 0; i < cards2.Count; i++)
+            {
+                Card c = cards2[i];
+                cards.Add(c);
+                h1.AddCard(c);
+            }
+
+            return h1;
         }
 
         public IEnumerator<Card> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return ((IEnumerable<Card>)cards).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return ((IEnumerable<Card>)cards).GetEnumerator();
         }
     }
 }

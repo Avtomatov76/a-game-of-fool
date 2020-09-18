@@ -22,6 +22,20 @@ namespace CardClasses
             return c;
         }
 
+        public Hand OffLoadAttackCards(Card attackCard, CompHand ch, Hand ph)
+        {
+            for (int i = 0; i < ch.NumCards; i++)
+            {
+                Card c = ch.GetCard(i);
+                if (c.Value == attackCard.Value)
+                {
+                    ch.cards.Remove(c);
+                    ph.AddCard(c);
+                }
+            }
+            return ph;
+        }
+
         public Card CompAttackSameCardValue(CompHand ch, Card c)
         {
             Card atckCard = new Card();
@@ -37,6 +51,8 @@ namespace CardClasses
             }
             return atckCard;
         }
+
+        //attack with any VALUE displayed within the PlayHand
 
         public CompHand CompSortCards(CompHand ch, Card tc)
         {
@@ -99,6 +115,22 @@ namespace CardClasses
             }
             return null;
         }
+
+        //public bool CanAttackAgain(CompHand ch, PlayHand ph) //Checks if Computer can attack again based on cards in the PlayHand
+        //{
+        //    bool canAttack = false;
+
+        //    for (int i = 0; i < ph.NumCards; i++)
+        //    {
+        //        Card c = ph.GetCard(i);
+        //        for (int j = 0; j < ch.NumCards; j++)
+        //        {
+        //            if (ch.cards[j].Value == c.Value)
+        //                canAttack = true;
+        //        }
+        //    }
+        //    return canAttack;
+        //}
 
         public bool CanDefend(CompHand ch, Card c, Card tc) //determines if a player is able to defend
         {

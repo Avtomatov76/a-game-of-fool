@@ -44,6 +44,13 @@ namespace CardClasses
             return numTrumpCards;
         }  
 
+        public Card AttackWithCard(FoolHand fh, int index)
+        {
+            Card c = fh.GetCard(index);
+            cards.Remove(c);
+            return c;
+        }
+
         public Card AttackAgain(FoolHand fh, Card c) //attacking again if there is a card of the same value in a hand
         {
             Card c1 = new Card();
@@ -59,6 +66,20 @@ namespace CardClasses
             return null;
         }
 
+        public bool CanAttackAgain(int index, Hand h, PlayHand ph) //Checks if a player can attack again with a specific card
+        {
+            bool canAttack = false;
+            Card attackCard = h.GetCard(index);
+
+            for (int i = 0; i < ph.NumCards; i++)
+            {
+                Card c = ph.GetCard(i);
+                if (attackCard.Value == c.Value)
+                    canAttack = true;
+            }
+            return canAttack;
+        }
+
         public FoolHand SortCards(FoolHand fh)
         {
             FoolHand fh1 = new FoolHand();
@@ -68,6 +89,18 @@ namespace CardClasses
                 fh1.AddCard(cards[i]);
             
             return fh1;
+        }
+
+        public bool CanDefendWithSpecificCard(Card attkCard, Card defCard, Card trump) //checking if a plyer-chosen card can beat the attacking card
+        {
+            bool canDefend = false;
+            if ((defCard.HasMatchingSuit(attkCard) && defCard.Value > attkCard.Value) ||
+                defCard.HasMatchingSuit(trump) && attkCard.Suit != trump.Suit ||
+                defCard.HasMatchingSuit(attkCard) && defCard.Value == 1 && attkCard.Value != 1)
+
+                canDefend = true;
+
+            return canDefend;
         }
 
         public bool CanDefend(FoolHand fh, Card c, Card tc) //determines if a player is able to defend
@@ -99,17 +132,22 @@ namespace CardClasses
             for (int i = 0; i < fh.NumCards; i++)
             {
                 c1 = cards[i];
-                if ((c1.HasMatchingSuit(c) && c1.Value > c.Value) ||
+                if ((c1.HasMatchingSuit(c) && c1.Value > c.Value && c.Value != 1) ||
                     (c1.HasMatchingSuit(c) && c1.Value == 1 && c.Value != 1) ||
                     (c1.HasMatchingSuit(tc) && c.Suit != tc.Suit) ||
-                    (c1.HasMatchingSuit(tc) && c.HasMatchingSuit(tc) && (c1.Value > c.Value ||
-                    (c1.HasMatchingSuit(c) && c1.Value == 1 && c.Value != 1))))
+                    (c1.HasMatchingSuit(tc) && c.HasMatchingSuit(tc) && (c1.Value > c.Value)))
                 {
                     cards.Remove(c1);
                     return c1;
                 }
             }
             return null;
+        }
+
+        public Card DefendWithCard(Card c, FoolHand fh)
+        {
+            fh.cards.Remove(c);
+            return c;
         }
 
         public Card DefendWithSpecifiedCard(int index, Card c) //NEEDS TESTING
